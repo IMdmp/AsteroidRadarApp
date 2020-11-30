@@ -19,7 +19,4 @@ class MainActivity : AppCompatActivity() {
         val nasaApi = retrofit?.create(NasaApi::class.java)
         nasaApi?.getAsteroidData(getString(R.string.API_KEY))
     }
-
-
-
 }
