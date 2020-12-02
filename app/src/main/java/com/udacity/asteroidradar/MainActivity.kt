@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.udacity.asteroidradar.Constants.API_QUERY_DATE_FORMAT
 import com.udacity.asteroidradar.api.NasaApi
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.database.AsteroidDatabase
+import com.udacity.asteroidradar.database.AsteroidEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -28,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         val df = SimpleDateFormat(API_QUERY_DATE_FORMAT, Locale.getDefault())
         val startFormattedDate: String = df.format(Date())
 
-
+        val database = AsteroidDatabase.getDatabase(this)
         val endFormattedDate :String = df.format(Date().time + 604800000L)
         GlobalScope.launch(Dispatchers.IO) {
 
@@ -38,7 +40,18 @@ class MainActivity : AppCompatActivity() {
                 val json = JSONObject(data.toString())
                 val asteroidList = parseAsteroidsJsonResult(json)
 
-                Timber.d("check $json")
+                val asteroidEntityList = mutableListOf<AsteroidEntity>()
+                asteroidList.forEach {
+                    asteroidEntityList.add(it.asDatabaseModel())
+                }
+
+
+                database.asteroidDatabaseDao.insertAllAsteroids(asteroidEntityList)
+
+                Timber.d("check ${database.asteroidDatabaseDao.getAllAsteroids()}")
+
+
+
             }catch (e:Exception){
                 Timber.e("exception getting data. $e")
             }
