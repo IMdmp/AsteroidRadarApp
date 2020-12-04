@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.repository
 
+import androidx.lifecycle.LiveData
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.asDatabaseModel
@@ -20,7 +21,7 @@ import kotlin.reflect.jvm.internal.impl.load.java.Constant
 
 class AsteroidRepository(private val asteroidDatabase: AsteroidDatabase) {
 
-    val asteroids: List<AsteroidEntity> =
+    val asteroids: LiveData<List<AsteroidEntity>> =
         asteroidDatabase.asteroidDatabaseDao.getAllAsteroids()
 
 
