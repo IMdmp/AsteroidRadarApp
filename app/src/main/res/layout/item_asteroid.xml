@@ -21,6 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/tvDate"
+            android:textColor="#FFF"
             app:asteroidName="@{asteroid}"
             />
 
@@ -31,6 +32,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvName"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="#FFF"
             app:asteroidDate="@{asteroid}"
             />
 
@@ -41,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:asteroidStatusImage="@{asteroid.potentiallyHazardous}"
+            app:statusIcon="@{asteroid.potentiallyHazardous}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
