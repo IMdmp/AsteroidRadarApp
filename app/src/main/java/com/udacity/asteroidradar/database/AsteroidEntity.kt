@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "daily_asteroid_table")
-class AsteroidEntity constructor(
+data class AsteroidEntity constructor(
     @PrimaryKey
     val id: Long,
     val codename: String,

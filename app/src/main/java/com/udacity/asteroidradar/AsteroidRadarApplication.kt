@@ -11,18 +11,5 @@ class AsteroidRadarApplication : Application() {
         super.onCreate()
 
         Timber.plant(Timber.DebugTree())
-        initNetwork()
-    }
-
-    private fun initNetwork() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(getString(R.string.API_URL))
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .build()
-        NetworkHelper.retrofit = retrofit
-    }
-
-    object NetworkHelper {
-        var retrofit: Retrofit? = null
     }
 }

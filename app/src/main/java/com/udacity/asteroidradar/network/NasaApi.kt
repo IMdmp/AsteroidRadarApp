@@ -1,8 +1,6 @@
-package com.udacity.asteroidradar.api
+package com.udacity.asteroidradar.network
 
 
-import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
