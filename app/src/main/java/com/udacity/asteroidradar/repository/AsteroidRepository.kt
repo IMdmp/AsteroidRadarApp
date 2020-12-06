@@ -1,9 +1,9 @@
 package com.udacity.asteroidradar.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.udacity.asteroidradar.asDatabaseModel
-import com.udacity.asteroidradar.base.Constants
+import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.KeyConstants
 import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.database.AsteroidEntity
 import com.udacity.asteroidradar.database.NetworkNasaPicture
@@ -26,7 +26,7 @@ class AsteroidRepository(private val asteroidDatabase: AsteroidDatabase) {
         var networkNasaPicture: NetworkNasaPicture? =null
         withContext(Dispatchers.IO){
             try{
-                networkNasaPicture = Network.nasaApi.getPictureOfTheDay(Constants.API_KEY).await()
+                networkNasaPicture = Network.nasaApi.getPictureOfTheDay(KeyConstants.NASA_API_KEY).await()
                 networkNasaPicture?.let {
                     asteroidDatabase.asteroidDatabaseDao.insert(it.asEntity())
                 }
@@ -46,10 +46,11 @@ class AsteroidRepository(private val asteroidDatabase: AsteroidDatabase) {
 
             try {
                 val data = Network.nasaApi.getAsteroidData(
-                    startFormattedDate, endFormattedDate,Constants.API_KEY
+                    startFormattedDate, endFormattedDate,
+                    KeyConstants.NASA_API_KEY
                 ).await()
 
-                val json = JSONObject(data.toString())
+                val json = JSONObject(data)
                 val asteroidList = parseAsteroidsJsonResult(json)
                 val asteroidEntityList = mutableListOf<AsteroidEntity>()
                 asteroidList.forEach {
