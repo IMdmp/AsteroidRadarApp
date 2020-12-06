@@ -32,7 +32,7 @@ class AsteroidRepository(private val asteroidDatabase: AsteroidDatabase) {
                 }
                 return@withContext
             }catch (e:java.lang.Exception){
-
+                Timber.e("error $e")
             }
         }
 

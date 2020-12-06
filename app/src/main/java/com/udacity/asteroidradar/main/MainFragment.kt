@@ -55,9 +55,6 @@ class MainFragment : Fragment() {
         }
         adapter = AsteroidAdapter(clickListener)
 
-
-
-
         binding.asteroidRecycler.adapter = adapter
         binding.asteroidRecycler.layoutManager = LinearLayoutManager(requireContext())
 
