@@ -2,8 +2,8 @@ package com.udacity.asteroidradar.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.asDatabaseModel
+import com.udacity.asteroidradar.base.Constants
 import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.database.AsteroidEntity
 import com.udacity.asteroidradar.database.NetworkNasaPicture
