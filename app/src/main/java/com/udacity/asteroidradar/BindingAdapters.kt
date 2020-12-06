@@ -12,8 +12,10 @@ import com.udacity.asteroidradar.database.NetworkNasaPicture
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
+        imageView.contentDescription = imageView.resources.getString(R.string.potentially_hazardous_asteroid_image)
     } else {
         imageView.setImageResource(R.drawable.ic_status_normal)
+        imageView.contentDescription = imageView.resources.getString(R.string.not_hazardous_asteroid_image)
     }
 }
 
@@ -33,24 +35,28 @@ fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
 fun bindTextViewToAstronomicalUnit(textView: TextView, number: Double) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.astronomical_unit_format), number)
+    textView.contentDescription = textView.text.toString()
 }
 
 @BindingAdapter("kmUnitText")
 fun bindTextViewToKmUnit(textView: TextView, number: Double) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.km_unit_format), number)
+    textView.contentDescription = textView.text.toString()
 }
 
 @BindingAdapter("velocityText")
 fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
+    textView.contentDescription = textView.text.toString()
 }
 
 @BindingAdapter("asteroidName")
 fun TextView.bindTextViewToDisplayName(asteroid: AsteroidEntity?) {
     asteroid?.let {
         text = asteroid.codename
+        contentDescription = asteroid.codename
     }
 }
 
@@ -58,6 +64,7 @@ fun TextView.bindTextViewToDisplayName(asteroid: AsteroidEntity?) {
 fun TextView.bindTextViewToDisplayDate(asteroid: AsteroidEntity?) {
     asteroid?.let {
         text = asteroid.closeApproachDate
+        contentDescription = asteroid.closeApproachDate
     }
 }
 
@@ -67,6 +74,7 @@ fun bindImage(imageView: ImageView, networkNasaPicture: NetworkNasaPicture?) {
         val imgUrl = networkNasaPicture.url
         imgUrl.let {
             val imgUri = it.toUri().buildUpon().scheme("https").build()
+            imageView.contentDescription = networkNasaPicture.title
             Picasso.with(imageView.context).load(imgUri).into(imageView)
         }
     }
