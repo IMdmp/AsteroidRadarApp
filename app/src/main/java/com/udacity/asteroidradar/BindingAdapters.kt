@@ -2,8 +2,11 @@ package com.udacity.asteroidradar
 
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.database.AsteroidEntity
+import com.udacity.asteroidradar.database.NetworkNasaPicture
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
@@ -42,16 +45,28 @@ fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
 }
 
 @BindingAdapter("asteroidName")
-fun TextView.bindTextViewToDisplayName(asteroid:AsteroidEntity?){
+fun TextView.bindTextViewToDisplayName(asteroid: AsteroidEntity?) {
     asteroid?.let {
         text = asteroid.codename
     }
 }
 
 @BindingAdapter("asteroidDate")
-fun TextView.bindTextViewToDisplayDate(asteroid: AsteroidEntity?){
+fun TextView.bindTextViewToDisplayDate(asteroid: AsteroidEntity?) {
     asteroid?.let {
         text = asteroid.closeApproachDate
+    }
+}
+
+@BindingAdapter("imageUrl")
+fun bindImage(imageView: ImageView, networkNasaPicture: NetworkNasaPicture?) {
+    if (networkNasaPicture!=null && networkNasaPicture.media_type == Constants.NASA_MEDIA_TYPE_IMAGE) {
+        val imgUrl = networkNasaPicture.url
+        imgUrl?.let {
+            val imgUri = it.toUri().buildUpon().scheme("https").build()
+
+            Picasso.with(imageView.context).load(imgUri).into(imageView)
+        }
     }
 }
 

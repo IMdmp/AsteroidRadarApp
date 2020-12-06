@@ -1,30 +1,43 @@
 package com.udacity.asteroidradar.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.udacity.asteroidradar.Constants
-import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.asDatabaseModel
 import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.database.AsteroidEntity
-import com.udacity.asteroidradar.database.Network
+import com.udacity.asteroidradar.database.NetworkNasaPicture
+import com.udacity.asteroidradar.network.Network
 import com.udacity.asteroidradar.network.parseAsteroidsJsonResult
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import retrofit2.await
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.reflect.jvm.internal.impl.load.java.Constant
 
 class AsteroidRepository(private val asteroidDatabase: AsteroidDatabase) {
 
     val asteroids: LiveData<List<AsteroidEntity>> =
         asteroidDatabase.asteroidDatabaseDao.getAllAsteroids()
 
+    suspend fun getImageOfTheDay(): NetworkNasaPicture? {
+        var networkNasaPicture: NetworkNasaPicture? =null
+        withContext(Dispatchers.IO){
+            try{
+                networkNasaPicture = Network.nasaApi.getPictureOfTheDay(Constants.API_KEY).await()
+                networkNasaPicture?.let {
+                    asteroidDatabase.asteroidDatabaseDao.insert(it.asEntity())
+                }
+                return@withContext
+            }catch (e:java.lang.Exception){
 
+            }
+        }
+
+        return networkNasaPicture
+    }
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {
             val df = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
