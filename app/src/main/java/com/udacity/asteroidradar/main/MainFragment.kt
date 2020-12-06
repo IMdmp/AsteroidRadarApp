@@ -2,12 +2,15 @@ package com.udacity.asteroidradar.main
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
+import com.udacity.asteroidradar.detail.DetailFragmentArgs
 import timber.log.Timber
 
 class MainFragment : Fragment() {
@@ -45,8 +48,15 @@ class MainFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
+        val clickListener = AsteroidItemListener { id ->
+            this.findNavController().navigate(
+                MainFragmentDirections.actionShowDetail(id)
+            )
+        }
+        adapter = AsteroidAdapter(clickListener)
 
-        adapter = AsteroidAdapter()
+
+
 
         binding.asteroidRecycler.adapter = adapter
         binding.asteroidRecycler.layoutManager = LinearLayoutManager(requireContext())
