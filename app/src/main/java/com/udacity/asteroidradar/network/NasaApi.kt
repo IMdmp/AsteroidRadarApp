@@ -1,6 +1,8 @@
 package com.udacity.asteroidradar.network
 
 
+import com.udacity.asteroidradar.database.NasaPictureEntity
+import com.udacity.asteroidradar.database.NetworkNasaPicture
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -14,5 +16,5 @@ interface NasaApi {
 
 
     @GET("planetary/apod")
-    fun getPictureOfTheDay(@Query("api_key") key:String): Call<String>
+    fun getPictureOfTheDay(@Query("api_key") key:String): Call<NetworkNasaPicture>
 }
