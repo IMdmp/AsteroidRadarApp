@@ -5,7 +5,6 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
-import com.udacity.asteroidradar.base.Constants
 import com.udacity.asteroidradar.database.AsteroidEntity
 import com.udacity.asteroidradar.database.NetworkNasaPicture
 
