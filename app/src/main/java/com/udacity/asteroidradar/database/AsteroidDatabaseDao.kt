@@ -20,6 +20,9 @@ interface AsteroidDatabaseDao {
     @Query("SELECT * FROM daily_asteroid_table ORDER BY id DESC LIMIT 1")
     suspend fun getAsteroid():AsteroidEntity?
 
+    @Query("SELECT * FROM daily_asteroid_table WHERE id == :id ")
+    suspend fun getAsteroidById(id:Long):AsteroidEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllAsteroids(asteroids: List<AsteroidEntity>)
 

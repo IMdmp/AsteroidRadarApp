@@ -62,9 +62,8 @@ fun TextView.bindTextViewToDisplayDate(asteroid: AsteroidEntity?) {
 fun bindImage(imageView: ImageView, networkNasaPicture: NetworkNasaPicture?) {
     if (networkNasaPicture!=null && networkNasaPicture.media_type == Constants.NASA_MEDIA_TYPE_IMAGE) {
         val imgUrl = networkNasaPicture.url
-        imgUrl?.let {
+        imgUrl.let {
             val imgUri = it.toUri().buildUpon().scheme("https").build()
-
             Picasso.with(imageView.context).load(imgUri).into(imageView)
         }
     }

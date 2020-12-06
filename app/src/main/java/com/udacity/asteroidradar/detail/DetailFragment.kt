@@ -8,17 +8,32 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.udacity.asteroidradar.R
+import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.databinding.FragmentDetailBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class DetailFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val binding = FragmentDetailBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        val asteroid = DetailFragmentArgs.fromBundle(requireArguments()).selectedAsteroid
+        val asteroidId = DetailFragmentArgs.fromBundle(requireArguments()).selectedAsteroidId
 
-        binding.asteroid = asteroid
+        GlobalScope.launch(Dispatchers.IO) {
+            val asteroidEntity =
+                AsteroidDatabase.getDatabase(requireContext()).asteroidDatabaseDao.getAsteroidById(
+                    asteroidId
+                )
+            Timber.d("got this asteroid entity: $asteroidEntity")
+            binding.asteroid = asteroidEntity?.toDomain()
+        }
+
 
         binding.helpButton.setOnClickListener {
             displayAstronomicalUnitExplanationDialog()
